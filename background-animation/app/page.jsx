@@ -14,8 +14,7 @@ export default function BackgroundChanger() {
     "from-black via-gray-900 via-orange-700 via-orange-600 to-orange-400",
     "from-black via-gray-900 via-yellow-700 via-yellow-600 to-yellow-400",
     "from-black via-gray-900 via-purple-700 via-purple-600 to-purple-400",
-    "from-black via-gray-900 via-yellow-700 via-yellow-600 to-yellow-400",
-    "from-black via-gray-900 via-orange-700 via-orange-600 to-orange-400",
+    "from-black via-gray-900 via-green-700 via-green-600 to-green-400"
   ];
 
   useEffect(() => {
@@ -27,13 +26,15 @@ export default function BackgroundChanger() {
 
   const handleGradientChange = () => {
     const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+    if (randomGradient === currentGradient) return; // Vermijd dezelfde gradient
+
     setNextGradient(randomGradient);
     setIsFading(true);
 
     setTimeout(() => {
       setCurrentGradient(randomGradient); // Maak de nieuwe kleur definitief
       setIsFading(false); // Beëindig fade-in
-    }, 3000); // Fade-in duurt 3 seconden
+    }, 3050); // Fade-in duurt iets langer om conflicten te vermijden
   };
 
   const changeColor = () => {
@@ -44,9 +45,9 @@ export default function BackgroundChanger() {
     <div className="h-screen w-screen relative">
       {/* Huidige achtergrondkleur */}
       <div
-        className={`absolute inset-0 bg-gradient-to-r ${currentGradient} transition-all duration-500`}
+        className={`absolute inset-0 bg-gradient-to-r ${currentGradient} transition-opacity duration-500`}
         style={{
-          zIndex: 1,
+          zIndex: isFading ? 1 : 2,
         }}
       ></div>
 
